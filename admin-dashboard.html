@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reno-Flo Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* Login Form Styles */
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #2980b9;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e1e8ed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h3 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .toggle-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: #2980b9;
+        }
+
+        .section-content {
+            padding: 20px;
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            background: #229954;
+        }
+
+        .status-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .export-section {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .export-btn {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin: 0 10px;
+        }
+
+        .export-btn:hover {
+            background: #8e44ad;
+        }
+
+        .file-input {
+            margin: 10px 0;
+        }
+
+        .preview-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .preview-section h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .preview-content {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e1e8ed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="login-container" id="loginForm">
+            <h2>🔐 Admin Login</h2>
+            <div class="error-message" id="errorMessage"></div>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="header">
+                <h1>🚀 Reno-Flo Admin Dashboard</h1>
+                <p>Manage your landing page content with ease</p>
+            </div>
+
+            <div class="content">
+                <div class="dashboard-header">
+                    <h2>Welcome, Admin!</h2>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+
+                <!-- Hero Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>🎯 Hero Section</h3>
+                        <button class="toggle-btn" onclick="toggleSection('hero')">Edit</button>
+                    </div>
+                    <div class="section-content" id="hero">
+                        <div class="form-group">
+                            <label>Main Heading</label>
+                            <input type="text" id="hero-heading" value="Transform Your Home Improvement Business">
+                        </div>
+                        <div class="form-group">
+                            <label>Subheading</label>
+                            <textarea id="hero-subheading">We help contractors make a big splash with revenue-printing ads, create websites that wow their clients, and set up smart AI systems that handle their daily boring tasks on autopilot.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>CTA Button Text</label>
+                            <input type="text" id="hero-cta" value="Book A Call">
+                        </div>
+                        <button class="save-btn" onclick="saveHeroSection()">Save Hero Section</button>
+                        <div class="preview-section">
+                            <h4>Preview:</h4>
+                            <div class="preview-content">
+                                <h2 id="hero-preview-heading">Transform Your Home Improvement Business</h2>
+                                <p id="hero-preview-subheading">We help contractors make a big splash with revenue-printing ads, create websites that wow their clients, and set up smart AI systems that handle their daily boring tasks on autopilot.</p>
+                                <button id="hero-preview-cta">Book A Call</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>⚙️ How It Works Section</h3>
+                        <button class="toggle-btn" onclick="toggleSection('how-it-works')">Edit</button>
+                    </div>
+                    <div class="section-content" id="how-it-works">
+                        <div class="form-group">
+                            <label>Section Heading</label>
+                            <input type="text" id="how-heading" value="HOW IT WORKS">
+                        </div>
+                        <div class="form-group">
+                            <label>Step 1 Title</label>
+                            <input type="text" id="step1-title" value="Attract Homeowners in your serviced area">
+                        </div>
+                        <div class="form-group">
+                            <label>Step 1 Description</label>
+                            <textarea id="step1-desc">Through our industry leading partners, we get motivated Homeowners in your service area and initiate the relationship with your business.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Step 2 Title</label>
+                            <input type="text" id="step2-title" value="Qualify them accordingly to who you want to work with">
+                        </div>
+                        <div class="form-group">
+                            <label>Step 2 Description</label>
+                            <textarea id="step2-desc">We meticulously screen and qualify every lead to ensure they're a perfect fit for your business, so you only engage with the best high quality prospects.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Step 3 Title</label>
+                            <input type="text" id="step3-title" value="STACK 5 STAR REVIEWS AND MANAGE YOUR ONLINE PRESENCE">
+                        </div>
+                        <div class="form-group">
+                            <label>Step 3 Description</label>
+                            <textarea id="step3-desc">We expertly manage your online presence and reputation with strategic review campaigns, ensuring your business shines and builds strong trust with potential clients to make everyone's life easier.</textarea>
+                        </div>
+                        <button class="save-btn" onclick="saveHowItWorksSection()">Save How It Works Section</button>
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>👥 Team Section</h3>
+                        <button class="toggle-btn" onclick="toggleSection('team')">Edit</button>
+                    </div>
+                    <div class="section-content" id="team">
+                        <div class="form-group">
+                            <label>Section Heading</label>
+                            <input type="text" id="team-heading" value="Our Team">
+                        </div>
+                        <div class="form-group">
+                            <label>Team Description</label>
+                            <textarea id="team-desc">We help contractors make a big splash with revenue-printing ads, create websites that wow their clients, and set up smart AI systems that handle their daily boring tasks on autopilot.</textarea>
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 15px 0; color: #2c3e50;">Team Members</h4>
+                        
+                        <div class="form-group">
+                            <label>Seif - Title</label>
+                            <input type="text" id="seif-title" value="Director">
+                        </div>
+                        <div class="form-group">
+                            <label>Omid - Title</label>
+                            <input type="text" id="omid-title" value="Partner">
+                        </div>
+                        <div class="form-group">
+                            <label>Kjell - Title</label>
+                            <input type="text" id="kjell-title" value="Ads Specialist">
+                        </div>
+                        <div class="form-group">
+                            <label>Hannah - Title</label>
+                            <input type="text" id="hannah-title" value="Lead Concierge">
+                        </div>
+                        
+                        <button class="save-btn" onclick="saveTeamSection()">Save Team Section</button>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>❓ FAQ Section</h3>
+                        <button class="toggle-btn" onclick="toggleSection('faq')">Edit</button>
+                    </div>
+                    <div class="section-content" id="faq">
+                        <div class="form-group">
+                            <label>Section Heading</label>
+                            <input type="text" id="faq-heading" value="FAQ">
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 15px 0; color: #2c3e50;">FAQ Items</h4>
+                        
+                        <div class="form-group">
+                            <label>Question 1</label>
+                            <input type="text" id="faq-q1" value="How quickly do I get to see results with your approach?">
+                        </div>
+                        <div class="form-group">
+                            <label>Answer 1</label>
+                            <textarea id="faq-a1">The beauty of our program is that we don't have to wait for Ads testing, or optimization or any of that. 97% of our clients start seeing leads from the first day working with us.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Question 2</label>
+                            <input type="text" id="faq-q2" value="Why don't you use paid advertising? There are many ads platforms – why not diversify?">
+                        </div>
+                        <div class="form-group">
+                            <label>Answer 2</label>
+                            <textarea id="faq-a2">Different platforms work very differently for Home Improvement Companies. By now, all of them are incredibly competitive and very expensive – Google ads, especially. Others barely work at all. We know this from experience. Our goal is to allow you to reach your business goals without incurring more expenses on your end. We have THE most cost-effective program on the market.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Question 3</label>
+                            <input type="text" id="faq-q3" value="Why don't you work with Home Improvement Companies that can't handle 2 or more leads per day">
+                        </div>
+                        <div class="form-group">
+                            <label>Answer 3</label>
+                            <textarea id="faq-a3">We earn when you earn. Our success is based on your success. In the past, the new flow of customers has overwhelmed smaller companies and they've had to switch off our program while they try to handle the new workflow. Which means they stop using our services until they work out how to run their own business. We need companies who can handle the increase in business and keep the revenues flowing. Larger businesses – those that can handle AT LEAST 2 leads per day – have already worked out how to handle larger volumes of work. Their processes are more robust. They have good people in place. For them, handling a fairly sudden uplift in business is a matter of expanding what they already do – rather than having to learn it all from scratch. No matter where you operate the business is all there. We want to work with clients who can handle it.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Question 4</label>
+                            <input type="text" id="faq-q4" value="What if you work with another Company in my area, won't that hurt my business?">
+                        </div>
+                        <div class="form-group">
+                            <label>Answer 4</label>
+                            <textarea id="faq-a4">That won't happen. Before we take on a new client we make sure they're right for us. In other words we first qualify them (just like we qualify new customers for you). Part of that qualification is: do we already have a client in the area you operate in? We routinely refuse to take on clients because their business competes with an existing client's business. So rest assured: if you are our client then we will not take on a new client in your area of operation.</textarea>
+                        </div>
+                        
+                        <button class="save-btn" onclick="saveFAQSection()">Save FAQ Section</button>
+                    </div>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>📞 Footer Section</h3>
+                        <button class="toggle-btn" onclick="toggleSection('footer')">Edit</button>
+                    </div>
+                    <div class="section-content" id="footer">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="footer-address" value="407 Lincoln Rd Ste Miami Beach, FL 33139">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" id="footer-email" value="seif@reno-flo.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Copyright Text</label>
+                            <input type="text" id="footer-copyright" value="© 2024 Reno-Flo.com. All rights reserved.">
+                        </div>
+                        <button class="save-btn" onclick="saveFooterSection()">Save Footer Section</button>
+                    </div>
+                </div>
+
+                <!-- Export/Import Section -->
+                <div class="export-section">
+                    <h3>💾 Export & Import</h3>
+                    <p>Save your changes or load previous configurations</p>
+                    <button class="export-btn" onclick="exportConfig()">Export Configuration</button>
+                    <button class="export-btn" onclick="importConfig()">Import Configuration</button>
+                    <input type="file" id="import-file" class="file-input" accept=".json" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin credentials (in real app, this would be server-side)
+        const ADMIN_EMAIL = "admin@reno-flo.com";
+        const ADMIN_PASSWORD = "reno123";
+
+        // Check if user is already logged in
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            if (isLoggedIn === 'true') {
+                showDashboard();
+            }
+        }
+
+        // Login function
+        function login(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                showDashboard();
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.textContent = 'Invalid email or password. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Toggle section visibility
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const isActive = content.classList.contains('active');
+            
+            // Close all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Open clicked section if it wasn't active
+            if (!isActive) {
+                content.classList.add('active');
+            }
+        }
+
+        // Save functions for each section
+        function saveHeroSection() {
+            const heading = document.getElementById('hero-heading').value;
+            const subheading = document.getElementById('hero-subheading').value;
+            const cta = document.getElementById('hero-cta').value;
+            
+            // Update preview
+            document.getElementById('hero-preview-heading').textContent = heading;
+            document.getElementById('hero-preview-subheading').textContent = subheading;
+            document.getElementById('hero-preview-cta').textContent = cta;
+            
+            showStatus('Hero section saved successfully!', 'success');
+        }
+
+        function saveHowItWorksSection() {
+            showStatus('How It Works section saved successfully!', 'success');
+        }
+
+        function saveTeamSection() {
+            showStatus('Team section saved successfully!', 'success');
+        }
+
+        function saveFAQSection() {
+            showStatus('FAQ section saved successfully!', 'success');
+        }
+
+        function saveFooterSection() {
+            showStatus('Footer section saved successfully!', 'success');
+        }
+
+        // Show status messages
+        function showStatus(message, type) {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status-message ${type}`;
+            statusDiv.textContent = message;
+            
+            // Remove any existing status messages
+            document.querySelectorAll('.status-message').forEach(msg => msg.remove());
+            
+            // Add new status message
+            document.querySelector('.content').appendChild(statusDiv);
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                statusDiv.remove();
+            }, 3000);
+        }
+
+        // Export configuration
+        function exportConfig() {
+            const config = {
+                hero: {
+                    heading: document.getElementById('hero-heading').value,
+                    subheading: document.getElementById('hero-subheading').value,
+                    cta: document.getElementById('hero-cta').value
+                },
+                howItWorks: {
+                    heading: document.getElementById('how-heading').value,
+                    step1: {
+                        title: document.getElementById('step1-title').value,
+                        description: document.getElementById('step1-desc').value
+                    },
+                    step2: {
+                        title: document.getElementById('step2-title').value,
+                        description: document.getElementById('step2-desc').value
+                    },
+                    step3: {
+                        title: document.getElementById('step3-title').value,
+                        description: document.getElementById('step3-desc').value
+                    }
+                },
+                team: {
+                    heading: document.getElementById('team-heading').value,
+                    description: document.getElementById('team-desc').value,
+                    members: {
+                        seif: document.getElementById('seif-title').value,
+                        omid: document.getElementById('omid-title').value,
+                        kjell: document.getElementById('kjell-title').value,
+                        hannah: document.getElementById('hannah-title').value
+                    }
+                },
+                faq: {
+                    heading: document.getElementById('faq-heading').value,
+                    items: [
+                        {
+                            question: document.getElementById('faq-q1').value,
+                            answer: document.getElementById('faq-a1').value
+                        },
+                        {
+                            question: document.getElementById('faq-q2').value,
+                            answer: document.getElementById('faq-a2').value
+                        },
+                        {
+                            question: document.getElementById('faq-q3').value,
+                            answer: document.getElementById('faq-a3').value
+                        },
+                        {
+                            question: document.getElementById('faq-q4').value,
+                            answer: document.getElementById('faq-a4').value
+                        }
+                    ]
+                },
+                footer: {
+                    address: document.getElementById('footer-address').value,
+                    email: document.getElementById('footer-email').value,
+                    copyright: document.getElementById('footer-copyright').value
+                }
+            };
+            
+            const dataStr = JSON.stringify(config, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'reno-flo-config.json';
+            link.click();
+            
+            showStatus('Configuration exported successfully!', 'success');
+        }
+
+        // Import configuration
+        function importConfig() {
+            document.getElementById('import-file').click();
+        }
+
+        // Handle file import
+        document.getElementById('import-file').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const config = JSON.parse(e.target.result);
+                        loadConfig(config);
+                        showStatus('Configuration imported successfully!', 'success');
+                    } catch (error) {
+                        showStatus('Error importing configuration. Please check file format.', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Load configuration into form fields
+        function loadConfig(config) {
+            if (config.hero) {
+                document.getElementById('hero-heading').value = config.hero.heading || '';
+                document.getElementById('hero-subheading').value = config.hero.subheading || '';
+                document.getElementById('hero-cta').value = config.hero.cta || '';
+            }
+            
+            if (config.howItWorks) {
+                document.getElementById('how-heading').value = config.howItWorks.heading || '';
+                if (config.howItWorks.step1) {
+                    document.getElementById('step1-title').value = config.howItWorks.step1.title || '';
+                    document.getElementById('step1-desc').value = config.howItWorks.step1.description || '';
+                }
+                if (config.howItWorks.step2) {
+                    document.getElementById('step2-title').value = config.howItWorks.step2.title || '';
+                    document.getElementById('step2-desc').value = config.howItWorks.step2.description || '';
+                }
+                if (config.howItWorks.step3) {
+                    document.getElementById('step3-title').value = config.howItWorks.step3.title || '';
+                    document.getElementById('step3-desc').value = config.howItWorks.step3.description || '';
+                }
+            }
+            
+            if (config.team) {
+                document.getElementById('team-heading').value = config.team.heading || '';
+                document.getElementById('team-desc').value = config.team.description || '';
+                if (config.team.members) {
+                    document.getElementById('seif-title').value = config.team.members.seif || '';
+                    document.getElementById('omid-title').value = config.team.members.omid || '';
+                    document.getElementById('kjell-title').value = config.team.members.kjell || '';
+                    document.getElementById('hannah-title').value = config.team.members.hannah || '';
+                }
+            }
+            
+            if (config.faq) {
+                document.getElementById('faq-heading').value = config.faq.heading || '';
+                if (config.faq.items && config.faq.items.length >= 4) {
+                    document.getElementById('faq-q1').value = config.faq.items[0].question || '';
+                    document.getElementById('faq-a1').value = config.faq.items[0].answer || '';
+                    document.getElementById('faq-q2').value = config.faq.items[1].question || '';
+                    document.getElementById('faq-a2').value = config.faq.items[1].answer || '';
+                    document.getElementById('faq-q3').value = config.faq.items[2].question || '';
+                    document.getElementById('faq-a3').value = config.faq.items[2].answer || '';
+                    document.getElementById('faq-q4').value = config.faq.items[3].question || '';
+                    document.getElementById('faq-a4').value = config.faq.items[3].answer || '';
+                }
+            }
+            
+            if (config.footer) {
+                document.getElementById('footer-address').value = config.footer.address || '';
+                document.getElementById('footer-email').value = config.footer.email || '';
+                document.getElementById('footer-copyright').value = config.footer.copyright || '';
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>
