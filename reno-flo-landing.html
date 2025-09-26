@@ -110,6 +110,7 @@
             justify-content: space-between !important;
             width: 100% !important;
             max-width: 100% !important;
+            height: 100px !important;
         }
         
         /* Desktop navigation layout - logo on left, menu on right */
@@ -120,6 +121,8 @@
         .nav-menu {
             order: 2 !important;
             display: flex !important;
+            align-items: center !important;
+            height: 100% !important;
         }
         
         .menu-button {
@@ -178,11 +181,20 @@
         .link-container {
             display: flex !important;
             visibility: visible !important;
+            align-items: center !important;
+            height: 100% !important;
         }
         
         .nav-link-3 {
             display: block !important;
             visibility: visible !important;
+            margin-right: 30px !important;
+        }
+        
+        .nav-buttons-container {
+            display: flex !important;
+            align-items: center !important;
+            height: 100% !important;
         }
         
         /* Ensure logo is visible */
@@ -195,6 +207,10 @@
             display: block !important;
             visibility: visible !important;
             filter: none !important;
+            height: 60px !important;
+            width: auto !important;
+            max-width: 250px !important;
+            object-fit: contain !important;
         }
         
         /* Buttons */
@@ -599,7 +615,10 @@
             }
             
             .brand-2 img {
-                height: 30px !important;
+                height: 35px !important;
+                width: auto !important;
+                max-width: 150px !important;
+                object-fit: contain !important;
             }
             
             .menu-button {
@@ -630,8 +649,10 @@
             }
             
             .brand-2 img {
-                height: 40px !important;
+                height: 45px !important;
                 width: auto !important;
+                max-width: 180px !important;
+                object-fit: contain !important;
             }
             
             /* Hero section mobile optimization */
@@ -1013,7 +1034,7 @@
         <div class="container-2 nav-container">
             <div class="nav-menu-container">
                 <a href="#" class="brand-2 w-nav-brand">
-                    <img sizes="(max-width: 735px) 100vw, 735px" srcset="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/673b04b81deed88e2fb7895e_RENO%20FLO%20-%20ONBOARDING%20(1)-p-500.png 500w, https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/673b04b81deed88e2fb7895e_RENO%20FLO%20-%20ONBOARDING%20(1).png 735w" alt="" src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/673b04b81deed88e2fb7895e_RENO%20FLO%20-%20ONBOARDING%20(1).png" loading="lazy" class="brand-2"/>
+                    <img src="logo.jpg" alt="Reno Flo Logo" loading="lazy" class="brand-2"/>
                 </a>
                 <nav role="navigation" class="nav-menu w-nav-menu">
                     <div class="link-container">
@@ -1121,22 +1142,22 @@
                 <div class="carousel-wrapper">
                     <div class="carousel-track" id="carouselTrack">
                         <div class="carousel-slide">
-                            <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d8500b86c914b35ca104_1.png" loading="lazy" class="carousel-image"/>
+                            <img src="./review.webp" loading="lazy" class="carousel-image"/>
                         </div>
-                        <div class="carousel-slide">
+                        <!-- <div class="carousel-slide">
                             <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d851d57d4774479a5ab0_3.png" loading="lazy" class="carousel-image"/>
                         </div>
                         <div class="carousel-slide">
                             <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d8501229ecc84514b411_5.png" loading="lazy" class="carousel-image"/>
-                        </div>
+                        </div> -->
                     </div>
                     <button class="carousel-btn carousel-btn-prev" id="prevBtn">❮</button>
                     <button class="carousel-btn carousel-btn-next" id="nextBtn">❯</button>
                 </div>
                 <div class="carousel-dots">
                     <span class="dot active" data-slide="0"></span>
-                    <span class="dot" data-slide="1"></span>
-                    <span class="dot" data-slide="2"></span>
+                    <!-- <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span> -->
                 </div>
             </div>
         </div>
@@ -1198,16 +1219,16 @@
                     </div>
                     <div class="steps-wraper">
                         <div class="step">
-                            <h3 class="steps-h3">Attract Homeowners in your serviced area</h3>
-                            <p>Through our industry leading partners, we get motivated Homeowners in your service area and initiate the relationship with your business.</p>
+                            <h3 class="steps-h3">No More Shared Leads. Every Inquiry Is 100% Yours.</h3>
+                            <p>We generate only exclusive inquiries, which means every single inquiry we send your way goes only to you and no one else — giving you the highest chance of closing the job without competing against other contractors.</p>
                         </div>
                         <div class="step">
-                            <h3 class="steps-h3">Qualify them accordingly to who you want to work with</h3>
-                            <p>We meticulously screen and qualify every lead to ensure they're a perfect fit for your business, so you only engage with the best high quality prospects.</p>
+                            <h3 class="steps-h3">🧭 We Target Your Zip Codes — That's It.</h3>
+                            <p>We localize everything by targeting your exact zip codes, so you're not wasting time with out-of-area leads. These are all close to where you work.</p>
                         </div>
                         <div class="step">
-                            <h3 class="steps-h3">STACK 5 STAR REVIEWS AND MANAGE YOUR ONLINE PRESENCE</h3>
-                            <p>We expertly manage your online presence and reputation with strategic review campaigns, ensuring your business shines and builds strong trust with potential clients to make everyone's life easier.</p>
+                            <h3 class="steps-h3">🚪 You Just Show Up, Quote the Job, and Close It.</h3>
+                            <p>We go a step further by having full conversations with the leads beforehand. We filter out the tire kickers and price shoppers, meaning the people you get on the phone with are ready, serious, and qualified. All you need to do is show up to the property, give the estimate, and close the job.</p>
                         </div>
                         <div class="shadow"></div>
                     </div>
@@ -1243,7 +1264,7 @@
                                             <img class="modular-team-image" src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/673b05395c2f184b4c8f1966_8bc9b1a43b6caddd18e07491501f25b5_1200_80.webp" alt="" loading="lazy"/>
                                             <div class="modular-team-07-overlay"></div>
                                             <div class="modular-team-07-content">
-                                                <p class="modular-text-l modular-semibold-font modular-color-inherit">Seif</p>
+                                                <p class="modular-text-l modular-semibold-font modular-color-inherit">Omid</p>
                                                 <div class="modular-opacity-70-pct">
                                                     <p class="modular-text modular-color-inherit">Director</p>
                                                 </div>
@@ -1431,7 +1452,7 @@
             <div class="footer-wraper">
                 <div class="top-area">
                     <div class="text-block-4">407 Lincoln Rd Ste Miami Beach, FL 33139</div>
-                    <div class="text-block-4">Email: seif@reno-flo.com</div>
+                    <div class="text-block-4">Email: omid@keebdigital.com</div>
                 </div>
                 <div class="devider"></div>
                 <div class="bottom-area">
