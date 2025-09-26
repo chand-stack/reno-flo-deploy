@@ -16,6 +16,7 @@
     <link href="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/css/reno-flo.webflow.shared.3feebcd12.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
     <script type="text/javascript">
         WebFont.load({
@@ -49,6 +50,17 @@
         body {
             color: var(--text-color) !important;
             background-color: var(--background-color) !important;
+            overflow-x: hidden !important;
+        }
+        
+        /* Prevent horizontal scroll */
+        * {
+            box-sizing: border-box !important;
+        }
+        
+        html, body {
+            max-width: 100% !important;
+            overflow-x: hidden !important;
         }
         
         /* Navigation */
@@ -96,6 +108,34 @@
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        
+        /* Desktop navigation layout - logo on left, menu on right */
+        .brand-2 {
+            order: 1 !important;
+        }
+        
+        .nav-menu {
+            order: 2 !important;
+            display: flex !important;
+        }
+        
+        .menu-button {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-button {
+                display: flex !important;
+                order: 3 !important;
+            }
+            
+            .nav-menu {
+                order: 2 !important;
+            }
         }
         
         /* Fix any pill-shaped elements */
@@ -346,6 +386,7 @@
             .navbar {
                 padding: 10px 0 !important;
                 min-height: 60px !important;
+                position: relative !important;
             }
             
             /* Ensure proper mobile layout */
@@ -355,34 +396,49 @@
                 align-items: center !important;
                 justify-content: space-between !important;
                 width: 100% !important;
+                max-width: 100% !important;
                 padding: 0 15px !important;
+                overflow: hidden !important;
+            }
+            
+            /* Mobile layout: logo left, burger menu right */
+            .brand-2 {
+                order: 1 !important;
+                flex-shrink: 0 !important;
+            }
+            
+            .nav-menu {
+                order: 2 !important;
+            }
+            
+            .menu-button {
+                order: 3 !important;
+                margin-left: auto !important;
             }
             
             .nav-menu {
                 position: fixed !important;
-                top: 100px !important;
+                top: 0 !important;
                 left: 0 !important;
                 right: 0 !important;
                 background-color: #000000 !important;
                 flex-direction: column !important;
-                padding: 20px !important;
+                padding: 80px 20px 20px 20px !important;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
                 z-index: 1000 !important;
-                height: calc(100vh - 100px) !important;
+                height: 100vh !important;
                 overflow-y: auto !important;
-                display: none !important;
+                display: flex !important;
+                transform: translateX(-100%) !important;
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
             }
             
             .nav-menu.active {
-                display: flex !important;
-            }
-            
-            /* Ensure menu is hidden by default on mobile */
-            .nav-menu:not(.active) {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-                transform: translateY(-20px) !important;
+                transform: translateX(0) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
             }
             
             /* Ensure hamburger button is visible on mobile */
@@ -400,44 +456,136 @@
                 position: relative !important;
                 z-index: 1001 !important;
                 margin-left: auto !important;
+                border: none !important;
+                outline: none !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            
+            .menu-button:hover {
+                background-color: #f0f0f0 !important;
+                transform: scale(1.05) !important;
+            }
+            
+            .menu-button:hover .burger-icon {
+                color: #000000 !important;
             }
             
             .menu-button .center-box {
-                width: 20px !important;
-                height: 20px !important;
+                width: 24px !important;
+                height: 18px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                position: relative !important;
             }
             
-            .menu-button .center-box img {
-                width: 100% !important;
-                height: 100% !important;
-                filter: invert(1) !important;
+            .burger-icon {
+                font-size: 18px !important;
+                color: #000000 !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                display: block !important;
+            }
+            
+            .close-icon {
+                font-size: 18px !important;
+                color: #ffffff !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                display: none !important;
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
             }
             
             /* Active state for menu button */
             .menu-button.active {
-                background-color: #333333 !important;
+                background-color: #000000 !important;
+                transform: scale(1.05) !important;
             }
             
-            .menu-button.active .center-box img {
-                filter: invert(0) !important;
-            }
-            
-            /* Hide navigation links on mobile by default */
-            .link-container {
+            .menu-button.active .burger-icon {
                 display: none !important;
             }
             
-            .link-container.active {
-                display: flex !important;
-            }
-            
-            /* Show nav buttons container on mobile */
-            .nav-buttons-container {
-                display: none !important;
-            }
-            
-            .nav-buttons-container.active {
+            .menu-button.active .close-icon {
                 display: block !important;
+            }
+            
+            /* Mobile menu links */
+            .link-container {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                margin-bottom: 20px !important;
+                opacity: 0 !important;
+                transform: translateY(20px) !important;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s !important;
+            }
+            
+            .nav-menu.active .link-container {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+            
+            .nav-link-3 {
+                margin-bottom: 15px !important;
+                width: 100% !important;
+                opacity: 0 !important;
+                transform: translateX(-20px) !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            
+            .nav-menu.active .nav-link-3 {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+            
+            .nav-link-3:nth-child(1) { transition-delay: 0.1s !important; }
+            .nav-link-3:nth-child(2) { transition-delay: 0.15s !important; }
+            .nav-link-3:nth-child(3) { transition-delay: 0.2s !important; }
+            .nav-link-3:nth-child(4) { transition-delay: 0.25s !important; }
+            .nav-link-3:nth-child(5) { transition-delay: 0.3s !important; }
+            
+            .nav-link-3 a {
+                display: block !important;
+                padding: 15px 0 !important;
+                text-align: center !important;
+                font-size: 18px !important;
+                border-bottom: 1px solid #333 !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            
+            .nav-link-3 a:hover {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                transform: translateX(10px) !important;
+            }
+            
+            /* Mobile nav buttons */
+            .nav-buttons-container {
+                display: block !important;
+                width: 100% !important;
+                text-align: center !important;
+                opacity: 0 !important;
+                transform: translateY(20px) !important;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s !important;
+            }
+            
+            .nav-menu.active .nav-buttons-container {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+            
+            .button-2 {
+                width: 100% !important;
+                padding: 15px !important;
+                font-size: 16px !important;
+                text-align: center !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            
+            .button-2:hover {
+                transform: scale(1.02) !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
             }
         }
         
@@ -460,8 +608,13 @@
             }
             
             .menu-button .center-box {
-                width: 18px !important;
-                height: 18px !important;
+                width: 20px !important;
+                height: 16px !important;
+            }
+            
+            .burger-icon,
+            .close-icon {
+                font-size: 16px !important;
             }
         }
         
@@ -682,6 +835,173 @@
         .simple-info:hover {
             background-color: rgba(0, 0, 0, 0.02);
         }
+        
+        /* Results Section Carousel Styles */
+        .text-center {
+            text-align: center !important;
+        }
+        
+        .carousel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+        
+        .carousel-image {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-btn-prev {
+            left: 20px;
+        }
+        
+        .carousel-btn-next {
+            right: 20px;
+        }
+        
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #000;
+            transform: scale(1.2);
+        }
+        
+        .dot:hover {
+            background: #666;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .carousel-container {
+                padding: 0 10px;
+                max-width: 100%;
+                overflow: hidden;
+            }
+            
+            .carousel-image {
+                max-height: 350px;
+                width: 100%;
+                height: auto;
+            }
+            
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+            
+            .carousel-btn-prev {
+                left: 10px;
+            }
+            
+            .carousel-btn-next {
+                right: 10px;
+            }
+            
+            /* Fix section padding */
+            .section {
+                padding: 40px 15px !important;
+            }
+            
+            .container {
+                padding: 0 15px !important;
+                max-width: 100% !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-container {
+                padding: 0 5px;
+            }
+            
+            .carousel-image {
+                max-height: 250px;
+            }
+            
+            .carousel-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 12px;
+            }
+            
+            .carousel-btn-prev {
+                left: 5px;
+            }
+            
+            .carousel-btn-next {
+                right: 5px;
+            }
+            
+            .section {
+                padding: 30px 10px !important;
+            }
+            
+            .container {
+                padding: 0 10px !important;
+            }
+        }
     </style>
     <script type="text/javascript">
         window.__WEBFLOW_CURRENCY_SETTINGS = {"currencyCode":"USD","symbol":"$","decimal":".","fractionDigits":2,"group":",","template":"{{wf {\"path\":\"symbol\",\"type\":\"PlainText\"} }} {{wf {\"path\":\"amount\",\"type\":\"CommercePrice\"} }} {{wf {\"path\":\"currencyCode\",\"type\":\"PlainText\"} }}","hideDecimalForWholeNumbers":false};
@@ -709,24 +1029,24 @@
                                 <div class="link-block-underline-2"></div>
                             </a>
                         </div>
-                        <div class="nav-link-3">
+                        <!-- <div class="nav-link-3">
                             <a href="#service" class="link-block animation-01 w-inline-block">
                                 <div>Services</div>
                                 <div class="link-block-underline-2"></div>
                             </a>
-                        </div>
+                        </div> -->
                         <div class="nav-link-3">
                             <a href="#Team" class="link-block animation-01 w-inline-block">
                                 <div>Team</div>
                                 <div class="link-block-underline-2"></div>
                             </a>
                         </div>
-                        <div class="nav-link-3">
+                        <!-- <div class="nav-link-3">
                             <a href="#FAQ" class="link-block animation-01 w-inline-block">
                                 <div>FAQ</div>
                                 <div class="link-block-underline-2"></div>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="nav-buttons-container">
                         <a href="https://go.reno-flo.com/gameplan-call" target="_blank" class="button-2 w-button">Book A Call</a>
@@ -734,7 +1054,8 @@
                 </nav>
                 <div class="menu-button w-nav-button">
                     <div class="center-box">
-                        <img loading="lazy" src="https://cdn.prod.website-files.com/66cf091da73dc8751e7a0101/66cf091da73dc8751e7a0119_menu.svg" alt=""/>
+                        <i class="fas fa-bars burger-icon"></i>
+                        <i class="fas fa-times close-icon"></i>
                     </div>
                 </div>
             </div>
@@ -747,7 +1068,7 @@
             <div class="hero-content">
                 <div class="hero-content-center">
                     <div class="main-hero-link-holder">
-                        <a href="#results" class="home-hero-link w-inline-block">
+                        <!-- <a href="#results" class="home-hero-link w-inline-block">
                             <div class="home-hero-link-wrap">
                                 <div class="hero-link-badge">
                                     <div>NEW</div>
@@ -760,7 +1081,7 @@
                                 </div>
                                 <div class="main-hero-link-content-bg"></div>
                             </div>
-                        </a>
+                        </a> -->
                     </div>
                     <h1 class="hero-text">We Guarantee Home Improvement Businesses Exclusive & Qualified Inquiries <span class="text-span">Without a dollar spend on advertising!</span></h1>
                     <div class="hero-description">Deal directly – and exclusively – with clients who are actively looking for Home Service Businesses</div>
@@ -773,7 +1094,7 @@
     </section>
 
     <!-- Services Section -->
-    <div class="section">
+    <!-- <div class="section">
         <div class="container">
             <h2 class="heading">WE ARE A SPECIALIST GROWTH Partner.</h2>
             <p class="hero-description big">We generate interest from homeowners, qualify them for you, and provide you with all their necessary information to ensure success for you.</p>
@@ -790,28 +1111,39 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Results Section -->
     <section id="results" class="section">
-        <h2 class="heading">Results</h2>
-        <div class="comapny-slider-container w-slider">
-            <div class="company-mask w-slider-mask">
-                <div class="company-slider w-slide">
-                    <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d8500b86c914b35ca104_1.png" loading="lazy" class="slider-image"/>
+        <div class="container">
+            <h2 class="heading text-center">Results</h2>
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide">
+                            <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d8500b86c914b35ca104_1.png" loading="lazy" class="carousel-image"/>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d851d57d4774479a5ab0_3.png" loading="lazy" class="carousel-image"/>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d8501229ecc84514b411_5.png" loading="lazy" class="carousel-image"/>
+                        </div>
+                    </div>
+                    <button class="carousel-btn carousel-btn-prev" id="prevBtn">❮</button>
+                    <button class="carousel-btn carousel-btn-next" id="nextBtn">❯</button>
                 </div>
-                <div class="company-slider w-slide">
-                    <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d851d57d4774479a5ab0_3.png" loading="lazy" class="slider-image"/>
-                </div>
-                <div class="company-slider w-slide">
-                    <img src="https://cdn.prod.website-files.com/6737f7e447b4fc7d7e61aab7/6738d8501229ecc84514b411_5.png" loading="lazy" class="slider-image"/>
+                <div class="carousel-dots">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- What We Do Section -->
-    <section id="service" class="section">
+    <!-- <section id="service" class="section">
         <div class="container">
             <h2 class="heading">What We do</h2>
             <p class="hero-description big">We help contractors make a big splash with revenue-printing ads, create websites that wow their clients, and set up smart AI systems that handle their daily boring tasks on autopilot.</p>
@@ -853,7 +1185,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- How It Works Section -->
     <section id="how-it-work" class="section">
@@ -971,7 +1303,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section id="FAQ" class="section">
+    <!-- <section id="FAQ" class="section">
         <div class="container">
             <h2 class="heading">FAQ</h2>
             <div class="job-position-card-wrapper">
@@ -1060,7 +1392,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- CTA Section -->
     <div class="modular-section">
@@ -1126,17 +1458,22 @@
             const body = document.body;
             
             // Toggle mobile menu
-            menuButton.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                menuButton.classList.toggle('active');
-                
-                // Prevent body scroll when menu is open
-                if (navMenu.classList.contains('active')) {
-                    body.style.overflow = 'hidden';
-                } else {
-                    body.style.overflow = '';
-                }
-            });
+            if (menuButton && navMenu) {
+                menuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    navMenu.classList.toggle('active');
+                    menuButton.classList.toggle('active');
+                    
+                    // Prevent body scroll when menu is open
+                    if (navMenu.classList.contains('active')) {
+                        body.style.overflow = 'hidden';
+                    } else {
+                        body.style.overflow = '';
+                    }
+                });
+            }
             
             // Close menu when clicking on a link
             const navLinks = document.querySelectorAll('.nav-menu a');
@@ -1192,6 +1529,98 @@
                     arrow.classList.toggle('active');
                 });
             });
+            
+            // Carousel Functionality
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.carousel-slide');
+            const totalSlides = slides.length;
+            const track = document.getElementById('carouselTrack');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dots = document.querySelectorAll('.dot');
+            
+            function updateCarousel() {
+                const translateX = -currentSlide * 100;
+                track.style.transform = `translateX(${translateX}%)`;
+                
+                // Update dots
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }
+            
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+            
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                updateCarousel();
+            }
+            
+            // Event listeners
+            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+            
+            // Dot navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => goToSlide(index));
+            });
+            
+            // Auto-play carousel (optional)
+            let autoPlayInterval;
+            
+            function startAutoPlay() {
+                autoPlayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            }
+            
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+            
+            // Start auto-play
+            startAutoPlay();
+            
+            // Pause on hover
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            if (carouselWrapper) {
+                carouselWrapper.addEventListener('mouseenter', stopAutoPlay);
+                carouselWrapper.addEventListener('mouseleave', startAutoPlay);
+            }
+            
+            // Touch/swipe support for mobile
+            let startX = 0;
+            let endX = 0;
+            
+            if (track) {
+                track.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+                
+                track.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    handleSwipe();
+                });
+            }
+            
+            function handleSwipe() {
+                const threshold = 50;
+                const diff = startX - endX;
+                
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                }
+            }
         });
     </script>
 </body>
